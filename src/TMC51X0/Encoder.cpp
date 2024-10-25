@@ -4,8 +4,12 @@
 // Authors:
 // Peter Polidoro peter@polidoro.io
 // ----------------------------------------------------------------------------
-#include "Encoder.hpp"
 
+#if defined(ARDUINO_ARCH_STM32)
+#include "../../../../src/Encoder.hpp"
+#else
+#include <Encoder.hpp>
+#endif
 
 using namespace tmc51x0;
 

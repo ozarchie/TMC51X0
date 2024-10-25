@@ -1,5 +1,5 @@
-#include <TMC51X0.hpp>
-
+//#include <TMC51X0.hpp>
+#include "../../../../src/TMC51X0.hpp"
 
 #if defined(ARDUINO_ARCH_RP2040)
 SPIClassRP2040 & spi = SPI;
@@ -37,7 +37,7 @@ void setup()
 #endif
   spi.begin();
   tmc51x0::SpiParameters spi_parameters(spi, SPI_CLOCK_RATE, SPI_CHIP_SELECT_PIN);
-  tmc5160.setupSpi(spi_parameters);
+  stepper.setupSpi(spi_parameters);
   stepper.driver.setEnableHardwarePin(ENABLE_HARDWARE_PIN);
 
   stepper.driver.enableStealthChop();

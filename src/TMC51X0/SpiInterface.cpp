@@ -11,7 +11,8 @@ using namespace tmc51x0;
 
 void SpiInterface::setup(tmc51x0::SpiParameters spi_parameters)
 {
-  interface_mode = SPI;
+  interface_mode = Interface::SPI;
+//  interface_mode = SPI;
   spi_parameters_ = spi_parameters;
   spi_settings_ = SPISettings(spi_parameters.clock_rate,
     spi_parameters.bit_order,

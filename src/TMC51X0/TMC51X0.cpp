@@ -4,8 +4,12 @@
 // Authors:
 // Peter Polidoro peter@polidoro.io
 // ----------------------------------------------------------------------------
-#include "TMC51X0.hpp"
 
+#if defined(ARDUINO_ARCH_STM32)
+#include "../../../../src/TMC51X0.hpp"
+#else
+#include <TMC51X0.hpp>
+#endif
 
 using namespace tmc51x0;
 

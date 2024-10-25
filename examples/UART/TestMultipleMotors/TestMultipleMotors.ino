@@ -1,4 +1,8 @@
+#if defined(ARDUINO_ARCH_STM32)
+#include "../../../../src/TMC51X0.hpp"
+#else
 #include <TMC51X0.hpp>
+#endif
 
 
 #if !defined(ARDUINO_ARCH_RP2040)

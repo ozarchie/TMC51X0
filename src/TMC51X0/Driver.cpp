@@ -4,8 +4,12 @@
 // Authors:
 // Peter Polidoro peter@polidoro.io
 // ----------------------------------------------------------------------------
-#include "Driver.hpp"
 
+#if defined(ARDUINO_ARCH_STM32)
+#include "../../../../src/Driver.hpp"
+#else
+#include <Driver.hpp>
+#endif
 
 using namespace tmc51x0;
 

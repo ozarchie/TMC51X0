@@ -1,4 +1,4 @@
-#include <TMC51X0.hpp>
+#include "../../../../src/TMC51X0.hpp"
 
 
 #if defined(ARDUINO_ARCH_RP2040)

@@ -4,8 +4,12 @@
 // Authors:
 // Peter Polidoro peter@polidoro.io
 // ----------------------------------------------------------------------------
-#include "Printer.hpp"
 
+#if defined(ARDUINO_ARCH_STM32)
+#include "../../../../src/Printer.hpp"
+#else
+#include "Printer.hpp"
+#endif
 
 using namespace tmc51x0;
 

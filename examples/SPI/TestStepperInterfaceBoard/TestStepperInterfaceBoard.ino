@@ -1,21 +1,41 @@
-#include <TMC51X0.hpp>
 
+#if defined(ARDUINO_ARCH_STM32)
+#include "../../../../src/TMC51X0.hpp"
+#else
+#include <TMC51X0.hpp>
+#endif
 
 #if defined(ARDUINO_ARCH_RP2040)
 SPIClassRP2040 & spi = SPI;
 pin_size_t SCK_PIN = 18;
 pin_size_t TX_PIN = 19;
 pin_size_t RX_PIN = 20;
+#elif defined(ARDUINO_ARCH_STM32)
+#include "../../../../src/EQ6IO.hpp"
+//             MOSI   MISO   SCLK   SSEL
+SPIClass SPI_1(PA_7,  PA_6,  PA_5,  PB_0);    // RA
+SPIClass SPI_2(PB_15, PB_14, PB_13, PB_12);   // DEC
+#define spi SPI_1
 #else
-SPIClass & spi = SPI;
+SPIClass & spi = SPI1;
 #endif
 
 // SPI Parameters
 const uint32_t SPI_CLOCK_RATE = 1000000;
-const pin_size_t SPI_CHIP_SELECT_PIN = 29;
+const pin_size_t SPI1_CHIP_SELECT_PIN = PB_0;
+const pin_size_t SPI2_CHIP_SELECT_PIN = PB_12;
 
-const pin_size_t ENABLE_VIO_PIN = 21;
-const pin_size_t ENABLE_FAN_PIN = 28;
+#if defined(ARDUINO_ARCH_STM32)
+//                       RX    TX
+HardwareSerial Serial1(PB_7, PB_6);
+#endif
+
+const pin_size_t ENABLE_VIO_PIN = PA_4;
+const pin_size_t ENABLE_FAN_PIN = PA_9;
+
+const pin_size_t LD_GREEN  = PA_9;
+const pin_size_t LD_BLUE   = PA_8;
+//LED_BUILTIN
 
 const uint32_t SERIAL_BAUD_RATE = 115200;
 const uint16_t LOOP_DELAY = 500;
@@ -68,17 +88,29 @@ void setup()
   pinMode(ENABLE_FAN_PIN, OUTPUT);
   digitalWrite(ENABLE_FAN_PIN, HIGH);
 
+  pinMode(LD_GREEN, OUTPUT);
+  digitalWrite(LD_GREEN, HIGH);
+
+  pinMode(LD_BLUE, OUTPUT);
+  digitalWrite(LD_BLUE, HIGH);
+
   delay(LOOP_DELAY);
 
   tmc5160.printer.setup(Serial);
+
+//#if defined(ARDUINO_ARCH_STM32)
+//  SPI_1.begin(); 
+//#else
+  spi.begin();
+//#endif
 
 #if defined(ARDUINO_ARCH_RP2040)
   spi.setSCK(SCK_PIN);
   spi.setTX(TX_PIN);
   spi.setRX(RX_PIN);
 #endif
-  spi.begin();
-  tmc51x0::SpiParameters spi_parameters(spi, SPI_CLOCK_RATE, SPI_CHIP_SELECT_PIN);
+
+  tmc51x0::SpiParameters spi_parameters(SPI_1, SPI_CLOCK_RATE, SPI1_CHIP_SELECT_PIN);
   tmc5160.setupSpi(spi_parameters);
 
   tmc51x0::ConverterParameters converter_parameters =
@@ -119,6 +151,8 @@ void setup()
 
 void loop()
 {
+  digitalWrite(LD_BLUE, HIGH);
+
   tmc5160.printer.getStoredAndPrintPwmconf();
   tmc5160.printer.readAndPrintPwmScale();
   tmc5160.printer.readAndPrintPwmAuto();
@@ -145,7 +179,8 @@ void loop()
   Serial.println("--------------------------");
 
   Serial.println("--------------------------");
-
+  
+  digitalWrite(LD_BLUE, LOW);
   delay(DELAY);
 
   target_velocity += TARGET_VELOCITY_INC;

@@ -1,5 +1,24 @@
-#include <TMC51X0.hpp>
+/*
+#define PIN_TO_BASEREG(pin)             (0)
+#define PIN_TO_BITMASK(pin)             ((uint32_t)digitalPinToPinName(pin))
+#define IO_REG_TYPE                     uint32_t
+#define IO_REG_BASE_ATTR
+#define IO_REG_MASK_ATTR
+#define DIRECT_READ(base, pin)          digitalReadFast((PinName)pin)
+#define DIRECT_WRITE_LOW(base, pin)     digitalWriteFast((PinName)pin, LOW)
+#define DIRECT_WRITE_HIGH(base, pin)    digitalWriteFast((PinName)pin, HIGH)
+#define DIRECT_MODE_INPUT(base, pin)    pin_function((PinName)pin, STM_PIN_DATA(STM_MODE_INPUT, GPIO_NOPULL, 0))
+#define DIRECT_MODE_OUTPUT(base, pin)   pin_function((PinName)pin, STM_PIN_DATA(STM_MODE_OUTPUT_PP, GPIO_NOPULL, 0))
 
+#define pin_size_t                      IO_REG_TYPE
+#define DIRECT_PIN_READ(base, pin)      digitalRead(pin)
+*/
+
+#if defined(ARDUINO_ARCH_STM32)
+#include "../../../../src/TMC51X0.hpp"
+#else
+#include "TMC51X0.hpp"
+#endif
 
 #if defined(ARDUINO_ARCH_RP2040)
 SPIClassRP2040 & spi = SPI;
