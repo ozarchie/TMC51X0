@@ -83,8 +83,7 @@ class SpiInterface : public Interface
 public:
   void setup(SpiParameters spi_parameters);
 
-  void writeRegister(uint8_t register_address,
-    uint32_t data);
+  void writeRegister(uint8_t register_address, uint32_t data);
   uint32_t readRegister(uint8_t register_address);
 
 private:

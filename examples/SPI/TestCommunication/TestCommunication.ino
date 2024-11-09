@@ -16,6 +16,7 @@
 
 #if defined(ARDUINO_ARCH_STM32)
 #include "../../../../src/TMC51X0.hpp"
+#include "../../../../src/EQ6IO.hpp" 
 #else
 #include "TMC51X0.hpp"
 #endif
@@ -25,37 +26,74 @@ SPIClassRP2040 & spi = SPI;
 pin_size_t SCK_PIN = 18;
 pin_size_t TX_PIN = 19;
 pin_size_t RX_PIN = 20;
+#elif defined(ARDUINO_ARCH_STM32)
+//             MOSI   MISO   SCLK   SSEL
+//SPIClass SPI_1(PA_7,  PA_6,  PA_5,  PB_0);    // RA
+//SPIClass SPI_2(PB_15, PB_14, PB_13, PB_12);   // DEC
+SPIClass RA_SPI(RA_MOSI,  RA_MISO,  RA_SCK,  RA_CSN);    // RA
+SPIClass DEC_SPI(DEC_MOSI, DEC_MISO, DEC_SCK, DEC_CSN);   // DEC
+#define spi RA_SPI
+#define spi2 DEC_SPI
 #else
-SPIClass & spi = SPI;
+SPIClass & spi = SPI1;
 #endif
 
 // SPI Parameters
 const uint32_t SPI_CLOCK_RATE = 1000000;
-const pin_size_t SPI_CHIP_SELECT_PIN = 10;
+const pin_size_t RA_CHIP_SELECT_PIN = RA_CSN;
+const pin_size_t DEC_CHIP_SELECT_PIN = DEC_CSN;
 
-const pin_size_t ENABLE_HARDWARE_PIN = 4;
+const pin_size_t ENABLE_HARDWARE_PIN = RADEC_EN;
+
+#if defined(ARDUINO_ARCH_STM32)
+//                       RX    TX
+HardwareSerial  Serial1(PB7, PB6);
+#endif
 
 const uint32_t SERIAL_BAUD_RATE = 115200;
 const uint16_t DELAY = 1000;
 
 // Instantiate TMC51X0
 TMC51X0 tmc5160;
+
 bool enabled;
+
+#define LED_BLUE    DEC_DIAG0
+#define LED_GREEN   DEC_DIAG1
 
 void setup()
 {
   Serial.begin(SERIAL_BAUD_RATE);
+  Serial1.begin(SERIAL_BAUD_RATE);
+  
+  pinMode(LED_BLUE, OUTPUT);
+  pinMode(LED_GREEN, OUTPUT);
+
+//while(1){
+  Serial.println("blue");
+  Serial1.println("blue");
+  digitalWrite(LED_BLUE, HIGH);
+  delay(1000);
+  digitalWrite(LED_BLUE, LOW);
+  delay(1000);
+  Serial.println("green");
+  Serial1.println("green");
+  digitalWrite(LED_GREEN, HIGH);
+  delay(1000);
+  digitalWrite(LED_GREEN, LOW);
+  delay(1000);
+//}
 
 #if defined(ARDUINO_ARCH_RP2040)
   spi.setSCK(SCK_PIN);
   spi.setTX(TX_PIN);
   spi.setRX(RX_PIN);
 #endif
-  spi.begin();
-  tmc51x0::SpiParameters spi_parameters(spi, SPI_CLOCK_RATE, SPI_CHIP_SELECT_PIN);
+
+  RA_SPI.begin();
+  tmc51x0::SpiParameters spi_parameters(RA_SPI, SPI_CLOCK_RATE, RA_CHIP_SELECT_PIN);
   tmc5160.setupSpi(spi_parameters);
   tmc5160.driver.setEnableHardwarePin(ENABLE_HARDWARE_PIN);
-
   enabled = false;
 }
 

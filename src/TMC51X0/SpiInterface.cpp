@@ -14,15 +14,13 @@ void SpiInterface::setup(tmc51x0::SpiParameters spi_parameters)
   interface_mode = Interface::SPI;
   spi_parameters_ = spi_parameters;
   spi_settings_ = SPISettings(spi_parameters.clock_rate,
-    spi_parameters.bit_order,
-    spi_parameters.data_mode);
-
+                              spi_parameters.bit_order,
+                              spi_parameters.data_mode);
   pinMode(spi_parameters_.chip_select_pin, OUTPUT);
   disableChipSelect();
 }
 
-void SpiInterface::writeRegister(uint8_t register_address,
-  uint32_t data)
+void SpiInterface::writeRegister(uint8_t register_address, uint32_t data)
 {
   CopiDatagram copi_datagram;
   copi_datagram.register_address = register_address;

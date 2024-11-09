@@ -13,17 +13,19 @@ pin_size_t RX_PIN = 20;
 #elif defined(ARDUINO_ARCH_STM32)
 #include "../../../../src/EQ6IO.hpp"
 //             MOSI   MISO   SCLK   SSEL
-SPIClass SPI_1(PA_7,  PA_6,  PA_5,  PB_0);    // RA
-SPIClass SPI_2(PB_15, PB_14, PB_13, PB_12);   // DEC
-#define spi SPI_1
+//SPIClass SPI_1(PA_7,  PA_6,  PA_5,  PB_0);    // RA
+//SPIClass SPI_2(PB_15, PB_14, PB_13, PB_12);   // DEC
+SPIClass RA_SPI(RA_MOSI,  RA_MISO,  RA_SCK,  RA_CSN);    // RA
+SPIClass DEC_SPI(DEC_MOSI, DEC_MISO, DEC_SCK, DEC_CSN);   // DEC
+#define spi RA_SPI
 #else
 SPIClass & spi = SPI1;
 #endif
 
 // SPI Parameters
 const uint32_t SPI_CLOCK_RATE = 1000000;
-const pin_size_t SPI1_CHIP_SELECT_PIN = PB_0;
-const pin_size_t SPI2_CHIP_SELECT_PIN = PB_12;
+const pin_size_t SPI1_CHIP_SELECT_PIN = RA_CSN;
+const pin_size_t SPI2_CHIP_SELECT_PIN = DEC_CSN;
 
 #if defined(ARDUINO_ARCH_STM32)
 //                       RX    TX

@@ -8,7 +8,7 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "/Users/jarchbold/Documents/Github/TMC51X0-1/examples/SPI/TestStepperInterfaceBoard",
+                "/Users/jarchbold/Documents/Github/TMC51X0-1/examples/SPI/TestCommunication",
                 "/Users/jarchbold/Documents/Github/TMC51X0-1/.pio/libdeps/disco_f051r8/TMC51X0",
                 "/Users/jarchbold/.platformio/packages/framework-arduinoststm32/libraries/SPI/src",
                 "/Users/jarchbold/.platformio/packages/framework-arduinoststm32/cores/arduino/avr",
@@ -52,7 +52,7 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "/Users/jarchbold/Documents/Github/TMC51X0-1/examples/SPI/TestStepperInterfaceBoard",
+                    "/Users/jarchbold/Documents/Github/TMC51X0-1/examples/SPI/TestCommunication",
                     "/Users/jarchbold/Documents/Github/TMC51X0-1/.pio/libdeps/disco_f051r8/TMC51X0",
                     "/Users/jarchbold/.platformio/packages/framework-arduinoststm32/libraries/SPI/src",
                     "/Users/jarchbold/.platformio/packages/framework-arduinoststm32/cores/arduino/avr",
@@ -101,6 +101,7 @@
                 "ARDUINO_ARCH_STM32",
                 "ARDUINO_disco_f051r8",
                 "EXTENDED_PIN_MODE",
+                "STM32F051x8",
                 "STM32F0xx",
                 "ARDUINO=10808",
                 "ARDUINO_ARCH_STM32",

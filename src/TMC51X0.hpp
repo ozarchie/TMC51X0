@@ -9,6 +9,7 @@
 #define TMC51X0_HPP
 #include <Arduino.h>
 
+
 #if defined(ARDUINO_ARCH_STM32)
 #define PIN_TO_BASEREG(pin)             (0)
 #define PIN_TO_BITMASK(pin)             ((uint32_t)digitalPinToPinName(pin))
