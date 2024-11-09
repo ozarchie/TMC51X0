@@ -4,11 +4,11 @@
 // Authors:
 // Peter Polidoro peter@polidoro.io
 // ----------------------------------------------------------------------------
-#if defined(ARDUINO_ARCH_STM32)
-#include "../../../../src/Controller.hpp"
-#else
+//#if defined(ARDUINO_ARCH_STM32)
+//#include "../../../../src/Controller.hpp"
+//#else
 #include <Controller.hpp>
-#endif
+//#endif
 
 using namespace tmc51x0;
 
