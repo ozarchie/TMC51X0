@@ -5,11 +5,7 @@
 // Peter Polidoro peter@polidoro.io
 // ----------------------------------------------------------------------------
 
-#if defined(ARDUINO_ARCH_STM32)
-#include "../../../../src/Encoder.hpp"
-#else
 #include <Encoder.hpp>
-#endif
 
 using namespace tmc51x0;
 
